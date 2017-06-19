@@ -14,7 +14,11 @@ fi
 
 re='^[0-9]+$'
 if ! [[ $2 =~ $re ]] ; then
-   echo "$2" > $1
+   echo "$2" > /docker/volumes/$1
+   mkdir -p /docker/$1
+   mount -t glusterfs $2:/$1 /docker/$1
 else
-  echo "gluster-store$2.weave.local" > $1
+  echo "gluster-store$2.weave.local" > /docker/volumes/$1
+  mkdir -p /docker/$1
+  mount -t glusterfs gluster-store$2.weave.local:/$1 /docker/$1
 fi
